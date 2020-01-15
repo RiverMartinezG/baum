@@ -76,6 +76,7 @@ class Baumfestival {
 
 		$this->load_dependencies();
 		$this->set_locale();
+		$this->define_init_hooks();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -112,6 +113,11 @@ class Baumfestival {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-baumfestival-i18n.php';
 
 		/**
+		 * The class responsible for defining all actions that occur in the init core hook.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'init/class-baumfestival-init.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-baumfestival-admin.php';
@@ -140,6 +146,21 @@ class Baumfestival {
 		$plugin_i18n = new Baumfestival_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+
+	}
+
+	/**
+	 * Register all of the hooks related to the admin area functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_init_hooks() {
+
+		$plugin_admin = new Baumfestival_Init( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'init', $plugin_admin, 'register_posts_type' );
 
 	}
 
