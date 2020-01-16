@@ -158,9 +158,11 @@ class Baumfestival {
 	 */
 	private function define_init_hooks() {
 
-		$plugin_admin = new Baumfestival_Init( $this->get_plugin_name(), $this->get_version() );
+		$plugin_init = new Baumfestival_Init( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'init', $plugin_admin, 'register_posts_type' );
+		$this->loader->add_action( 'init', $plugin_init, 'register_posts_type' );
+		$this->loader->add_filter( 'enter_title_here', $plugin_init, 'custom_enter_title' );
+		$this->loader->add_filter( 'acf/fields/google_map/api', $plugin_init, 'baum_acf_google_map_api');
 
 	}
 

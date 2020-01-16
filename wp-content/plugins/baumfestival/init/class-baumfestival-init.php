@@ -127,4 +127,40 @@ class Baumfestival_Init {
 
 		register_post_type( 'artist', $args );
 	}
+
+	/**
+	 * Change the title in Custom Post Types.
+	 *
+	 * @param $input
+	 *
+	 * @return string|void
+	 */
+	public function custom_enter_title( $input ) {
+		if ( 'festival' === get_post_type() ) {
+			return __( 'Nombre del Festival', 'baum-festivals' );
+		}
+
+		if ( 'event' === get_post_type() ) {
+			return __( 'Nombre del Evento', 'baum-festivals' );
+		}
+
+		if ( 'artist' === get_post_type() ) {
+			return __( 'Nombre del Artista', 'baum-festivals' );
+		}
+
+		return $input;
+	}
+
+	/**
+	 * Config Google Maps API Key
+	 *
+	 * @param $api
+	 *
+	 * @return mixed
+	 */
+	public function baum_acf_google_map_api( $api ) {
+		$api['key'] = 'AIzaSyDpJ919ntqiQF4YHwd6RLOSNp3A_hNJ32M';
+
+		return $api;
+	}
 }
