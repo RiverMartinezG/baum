@@ -163,4 +163,20 @@ class Baumfestival_Init {
 
 		return $api;
 	}
+
+	/**
+	 * Set custom ACF URL
+	 * @return string
+	 */
+	public function custom_acf_settings_url() {
+		return MY_ACF_URL;
+	}
+
+	/**
+	 * Hide ACF Options on menu
+	 * @return bool
+	 */
+	public function custom_acf_settings_show_admin() {
+		return false;
+	}
 }

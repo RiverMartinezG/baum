@@ -99,6 +99,14 @@ class Baumfestival {
 	 * @access   private
 	 */
 	private function load_dependencies() {
+		// Define path and URL to the ACF plugin.
+		define( 'MY_ACF_PATH', plugin_dir_path( dirname( __FILE__ ) ) . 'includes/acf/' );
+		define( 'MY_ACF_URL', plugin_dir_url( __FILE__ ) . '/acf/' );
+
+		/**
+		 * Add ACF Pro
+		 */
+		require_once MY_ACF_PATH . 'acf.php';
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
@@ -159,6 +167,10 @@ class Baumfestival {
 	private function define_init_hooks() {
 
 		$plugin_init = new Baumfestival_Init( $this->get_plugin_name(), $this->get_version() );
+
+		// ACF
+		$this->loader->add_filter( 'acf/settings/url', $plugin_init, 'custom_acf_settings_url');
+		// $this->loader->add_filter( 'acf/settings/show_admin', $plugin_init, 'custom_acf_settings_show_admin');
 
 		$this->loader->add_action( 'init', $plugin_init, 'register_posts_type' );
 		$this->loader->add_filter( 'enter_title_here', $plugin_init, 'custom_enter_title' );
