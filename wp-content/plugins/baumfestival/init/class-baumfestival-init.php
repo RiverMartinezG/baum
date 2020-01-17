@@ -173,10 +173,35 @@ class Baumfestival_Init {
 	}
 
 	/**
-	 * Hide ACF Options on menu
+	 * Hide ACF Options on menu.
 	 * @return bool
 	 */
 	public function custom_acf_settings_show_admin() {
 		return false;
+	}
+
+	/**
+	 * Load template for Archive templates.
+	 *
+	 * @param $template
+	 *
+	 * @return string
+	 */
+	public function load_archives_template( $template ) {
+		if ( is_archive() ) {
+			$post_type       = get_post_type();
+			$theme_template  = get_template_directory() . '/archive-{$post_type}.php';
+			$plugin_template = plugin_dir_path( dirname( __FILE__ ) ) . "templates/archive-{$post_type}.php";
+
+			if ( is_post_type_archive( $post_type ) ) {
+				if ( file_exists( $theme_template ) ) {
+					$template = $theme_template;
+				} else {
+					$template = $plugin_template;
+				}
+			}
+		}
+
+		return $template;
 	}
 }

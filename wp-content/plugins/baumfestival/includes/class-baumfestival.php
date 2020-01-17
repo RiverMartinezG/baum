@@ -175,6 +175,7 @@ class Baumfestival {
 		$this->loader->add_action( 'init', $plugin_init, 'register_posts_type' );
 		$this->loader->add_filter( 'enter_title_here', $plugin_init, 'custom_enter_title' );
 		$this->loader->add_filter( 'acf/fields/google_map/api', $plugin_init, 'baum_acf_google_map_api');
+		$this->loader->add_filter( 'template_include', $plugin_init,  'load_archives_template' );
 
 	}
 
