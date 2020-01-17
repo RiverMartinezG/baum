@@ -202,6 +202,17 @@ class Baumfestival_Init {
 			}
 		}
 
+		if ( is_single() ) {
+			$post_type = get_post_type();
+			$single_plugin_template = plugin_dir_path( dirname( __FILE__ ) ) . 'templates/single-cpt.php';
+
+			if ( 'festival' === $post_type || 'event' === $post_type || 'artist' ) {
+				if ( file_exists( $single_plugin_template ) ) {
+					return $single_plugin_template;
+				}
+			}
+		}
+
 		return $template;
 	}
 }
