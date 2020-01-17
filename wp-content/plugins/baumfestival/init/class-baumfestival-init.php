@@ -215,4 +215,54 @@ class Baumfestival_Init {
 
 		return $template;
 	}
+
+	/**
+	 * Custom endpoint for CPT Artist for REST API
+	 */
+	public function custom_api_rest() {
+		register_rest_route( 'baum/v1', '/artists', [
+			'methods'  => WP_REST_Server::READABLE,
+			'callback' => [ $this, 'api_get_all_artists' ]
+		] );
+	}
+
+	/**
+	 * API Callback for CPT
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return array
+	 */
+	public function api_get_all_artists(WP_REST_Request $request ) {
+		$args = [
+			'post_type'  => 'artist',
+		];
+
+		$event = $request->get_param('event');
+
+		if ( $event ) {
+			$args = [
+				'p' => $event,
+				'post_type' => 'event'
+			];
+
+			$events = new WP_Query( $args );
+			$artists_by_event = [];
+
+			if ( $events ) {
+				while ( $events->have_posts() ) : $events->the_post();
+					if ( get_field( 'artista' ) ) {
+						$artists_by_event[] = get_field( 'artista' );
+					}
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			return $artists_by_event;
+		}
+
+		$artists = new WP_Query( $args );
+
+		return $artists->posts;
+	}
 }
